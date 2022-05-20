@@ -1,0 +1,35 @@
+# deploy a private registry
+
+# # docker run -d -p 5000:5000 -e REGISTRY_STORAGE_DELETE_ENABLED=true --restart=always --name registry --net tak_network registry:2
+
+# docker run -d -p 9000:80 -e http_host=http://localhost:5000 -e DELETE_IMAGE=true -e REGISTRY_TITLE=mireilleregistry --name ui-registry --net tak_network joxit/docker-registr
+
+
+version: '3.3'
+services:
+
+  registry:
+    image: registry:2
+    ports:
+      - "5000:5000"
+    restart: always
+    environnement:
+      - REGISTRY_STORAGE_DELETE_ENABLED=true
+    networks:
+      - tak_network
+
+  docker-registry-ui:
+    image: joxit/docker-registry-ui
+    ports:
+      - "9000:80"
+    environment:
+      - http_host=http://localhost:5000
+      - DELETE_IMAGE=true
+      - REGISTRY_TITLE=mireilleregistry       
+    networks:
+      - tak_network
+
+
+networks:
+  tak_network:
+:
