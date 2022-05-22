@@ -1,0 +1,31 @@
+# private registry for pozos
+
+version: "2"
+
+services:
+
+  pozos-registry:
+    image: registry:2
+    ports:
+      - "5000:5000"
+    networks:
+      - pozos
+
+
+  web-interface:
+
+    
+    image: joxit/docker-registry-ui:static
+    networks: 
+      - pozos
+    ports:
+      - "3080:80"
+    environment:
+      - REGISTRY_TITLE="POZOS REGISTRY"
+      - URL="pozos-registry:5000"
+      - DELETE_IMAGES=true 
+ 
+
+
+networks:
+  pozos:

@@ -1,0 +1,38 @@
+# docker compose's file for deployment of the application 
+
+
+version: '3'
+services:
+
+  website:
+
+    depends_on:
+      - api
+    image: php:apache
+    environment:
+      - USERNAME=toto
+      - PASSWORD=python
+    volumes:
+      - ./website:/var/www/html
+    ports:
+      - '2080:80'
+    networks:
+      - pozos
+
+  api:
+    
+    image: image_api_pozos:1      
+    volumes:
+      - ./student_age.json:/data/student_age.json'
+    ports:
+      - '2000:5000'
+    networks:
+      - pozos
+    command: tail -f /dev/null 
+
+
+
+
+networks:
+  pozos:
+
